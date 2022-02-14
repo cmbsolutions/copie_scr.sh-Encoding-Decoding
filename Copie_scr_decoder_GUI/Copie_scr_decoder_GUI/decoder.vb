@@ -15,10 +15,13 @@
         Return r0
     End Function
 
-    Public Function Decode(file As String) As String
+    Public Function Decode(file As String, custom_seed As UInteger) As String
         Try
-
-            seed = start_seed
+            If custom_seed = 0 Then
+                seed = start_seed
+            Else
+                seed = custom_seed
+            End If
 
             prng_rand()
 

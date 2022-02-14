@@ -27,6 +27,8 @@ Partial Class Form1
         Me.ofd = New System.Windows.Forms.OpenFileDialog()
         Me.pFile = New System.Windows.Forms.Panel()
         Me.rtb = New System.Windows.Forms.RichTextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.cb1 = New System.Windows.Forms.ComboBox()
         Me.pFile.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -70,30 +72,49 @@ Partial Class Form1
         'rtb
         '
         Me.rtb.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtb.Location = New System.Drawing.Point(126, 2)
+        Me.rtb.Location = New System.Drawing.Point(126, 31)
         Me.rtb.Name = "rtb"
         Me.rtb.Size = New System.Drawing.Size(281, 141)
         Me.rtb.TabIndex = 0
         Me.rtb.Text = ""
         '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(126, 5)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(79, 15)
+        Me.Label2.TabIndex = 1
+        Me.Label2.Text = "Custom seed:"
+        '
+        'cb1
+        '
+        Me.cb1.FormattingEnabled = True
+        Me.cb1.Items.AddRange(New Object() {"001BE3AC", "00EBAEBA"})
+        Me.cb1.Location = New System.Drawing.Point(211, 2)
+        Me.cb1.Name = "cb1"
+        Me.cb1.Size = New System.Drawing.Size(196, 23)
+        Me.cb1.TabIndex = 3
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(409, 145)
+        Me.ClientSize = New System.Drawing.Size(410, 175)
+        Me.Controls.Add(Me.cb1)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.pFile)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.rtb)
         Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.MaximumSize = New System.Drawing.Size(425, 184)
-        Me.MinimumSize = New System.Drawing.Size(425, 184)
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Decoder"
         Me.pFile.ResumeLayout(False)
         Me.pFile.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents Label1 As Label
@@ -101,4 +122,6 @@ Partial Class Form1
     Friend WithEvents ofd As OpenFileDialog
     Friend WithEvents pFile As Panel
     Friend WithEvents rtb As RichTextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents cb1 As ComboBox
 End Class
