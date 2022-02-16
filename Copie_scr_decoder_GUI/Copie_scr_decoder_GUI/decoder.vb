@@ -1,4 +1,6 @@
-﻿Public Class decoder
+﻿Imports System.Text.RegularExpressions
+
+Public Class decoder
     Private Const start_seed As UInteger = &H1BE3AC
     Private seed As UInteger
 
@@ -15,7 +17,22 @@
         Return r0
     End Function
 
-    Public Function Decode(file As String, custom_seed As UInteger) As String
+    Public Function DecodeFile(file As String, custom_seed As UInteger) As String
+        Dim data() As Byte = IO.File.ReadAllBytes(file)
+        Dim outData() As Byte = Decode(data, custom_seed)
+
+        Return Text.Encoding.ASCII.GetString(outData)
+    End Function
+
+    Public Function EncodeString(input As String, custom_seed As UInteger) As Byte()
+        ' Convert to unix format (only linefeeds)
+        input = Regex.Replace(input, "\r\n", vbLf, RegexOptions.IgnoreCase)
+        Dim data() As Byte = Text.Encoding.ASCII.GetBytes(input)
+
+        Return Decode(data, custom_seed)
+    End Function
+
+    Private Function Decode(data() As Byte, custom_seed As UInteger) As Byte()
         Try
             If custom_seed = 0 Then
                 seed = start_seed
@@ -25,19 +42,18 @@
 
             prng_rand()
 
-            Dim inData() As Byte = IO.File.ReadAllBytes(file)
             Dim outData As New List(Of Byte)
 
-            For Each c In inData
+            For Each c In data
                 c = CByte(c Xor (prng_rand() And 255))
                 outData.Add(c)
             Next
 
-            Return Text.Encoding.ASCII.GetString(outData.ToArray)
+            Return outData.ToArray
 
         Catch ex As Exception
             Console.WriteLine(ex.Message)
-            Return ""
+            Return Nothing
         End Try
     End Function
 End Class

@@ -12,6 +12,7 @@
     <Company>CMBSolutions</Company>
     <Description>Windows user interface for encoding and decoding cpoie_scr.sh files</Description>
     <Copyright>Copyright CMBSolutions 2022</Copyright>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
