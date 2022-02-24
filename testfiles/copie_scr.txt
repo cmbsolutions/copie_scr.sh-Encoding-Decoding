@@ -1,0 +1,66 @@
+#!/bin/ksh
+sdcard=`ls /mnt|grep sdcard.*t`
+SDPath=/mnt/$sdcard 
+
+# mounts
+mount -uw $SDPath
+mount -uw /mnt/efs-system
+mount -uw /mnt/efs-persist
+
+dt=$(getTime)
+echo "Start at " $dt "\r\n"> $SDPath/$dt.txt
+
+echo -ne $(getTime) " - Show geStart\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/showScreen $SDPath/screens/geStart.png
+
+echo -ne $(getTime) " - Copy DataPST to SD\r\n" >> $SDPath/$dt.txt
+cp -v -r /mnt/efs-persist/DataPST.db $SDPath/DataPST.db.bkp
+cp -v -r /mnt/efs-persist/DataPST.db $SDPath/DataPST.db
+
+echo -ne $(getTime) " - Insert data into DataPST on SD\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1418463176,288230376151646213,1)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,4,40960,32783)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,4,4117,1)"
+
+echo -ne $(getTime) " - Insert online POI into DataPST on SD\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,676990753,72057594037862404,1)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1550256158,72063091596001282,3)"
+
+echo -ne $(getTime) " - Insert GEMMI into DataPST on SD\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1418463180,144115188075790336,0)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1418463180,288230376151646212,1)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1418463180,288230376151646213,2)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1418463180,288230376151646227,2)"
+
+echo -ne $(getTime) " - Copy DataPST on SD to MMI\r\n" >> $SDPath/$dt.txt
+cp -v -r $SDPath/DataPST.db /mnt/efs-persist/DataPST.db
+cp -v -r $SDPath/DataPST.db /HBpersistence/DataPST.db
+cp -v -r $SDPath/DataPST.db /mnt/hmisql/DataPST.db
+
+echo -ne $(getTime) " - Show geDone\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/showScreen $SDPath/screens/geDone.png
+
+echo -ne $(getTime) " - Show diagStart\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/showScreen $SDPath/screens/diagStart.png
+
+if test -a /scripts/Connectivity/getStatus.sh.bak ; then
+	rm /scripts/Connectivity/getStatus.sh
+	cp $SDPath/getStatus.sh /scripts/Connectivity/.
+	echo -ne $(getTime) " - getStatus.sh copied on MMI\r\n" >> $SDPath/$dt.txt
+else
+	mv /scripts/Connectivity/getStatus.sh /scripts/Connectivity/getStatus.sh.bak
+	echo -ne $(getTime) " - getStatus.sh bakuped on MMI (getStatus.sh.bak)\r\n" >> $SDPath/$dt.txt
+	cp $SDPath/getStatus.sh /scripts/Connectivity/.
+	echo -ne $(getTime) " - getStatus.sh copied on MMI\r\n" >> $SDPath/$dt.txt
+fi
+
+if ! test -a /usr/bin/awk ; then
+	cp $SDPath/utils/awk /usr/bin/.
+	cp $SDPath/utils/libc.so.3 /usr/bin/.
+	echo -ne $(getTime) " - awk copied on MMI\r\n" >> $SDPath/$dt.txt
+fi
+
+echo -ne $(getTime) " - Show diagDone\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/showScreen $SDPath/screens/diagDone.png
+
+echo -ne $(getTime) " - Installation successful\r\n" >> $SDPath/$dt.txt

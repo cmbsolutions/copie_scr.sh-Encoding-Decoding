@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+Actipro Syntax Language Project (.langproj)
+  For use with Actipro SyntaxEditor and related products.
+  http://www.actiprosoftware.com
+
+'KornShell' language created by CMBSolutions.
+  Copyright (c) 2022 CMBSolutions
+
+-->
+<LanguageProject LanguageKey="ksh" LanguageDescription="KornShell" OutputLanguageDefinition="False" OutputLanguageKey="VB" OutputNamespaceName="CMBSolutions.Text.ksh" OutputPath="E:\My Documents\localRepos\copie_scr.sh-Encoding-Decoding\Copie_scr_decoder_GUI\Copie_scr_decoder_GUI\Lexer" OutputPlatformKind="WinForms" Creator="CMBSolutions" Copyright="Copyright (c) 2022 CMBSolutions" xmlns="http://schemas.actiprosoftware.com/langproj/1.0">
+	<!-- Classification types -->
+	<LanguageProject.ClassificationTypes>
+		<ClassificationType Key="Backtick" DefaultStyle="#FFCEDF99,True,False" />
+		<ClassificationType Key="Character" DefaultStyle="#FFDCA3A3,False,False" />
+		<ClassificationType Key="Comment" DefaultStyle="#FF7F9F7F,True,True" />
+		<ClassificationType Key="Default" DefaultStyle="#FFDCDCCC,False,False,#FF3F3F3F,True" />
+		<ClassificationType Key="Error" DefaultStyle="#FFEDD6ED,True,False" />
+		<ClassificationType Key="Identifier" DefaultStyle="#FFDCDCCC,False,False" />
+		<ClassificationType Key="Keyword" DefaultStyle="#FFDFC47D,True,False" />
+		<ClassificationType Key="Number" DefaultStyle="#FF8CD0D3,False,False" />
+		<ClassificationType Key="Operator" DefaultStyle="#FF9F9D6D,True,False" />
+		<ClassificationType Key="Param" DefaultStyle="#FFFFEBDD,False,False" />
+		<ClassificationType Key="Scalar" DefaultStyle="#FFE3CEAB,True,False" />
+		<ClassificationType Key="String" DefaultStyle="#FFCC9393,False,False" />
+	</LanguageProject.ClassificationTypes>
+	<!-- Lexer -->
+	<LanguageProject.Lexer>
+		<DynamicLexer>
+			<!-- Default state -->
+			<State Key="Default" DefaultClassificationTypeKey="Default">
+				<State.ChildStates>
+					<StateRef Key="Character" />
+					<StateRef Key="String" />
+					<StateRef Key="MultiLineComment" />
+					<StateRef Key="Comment" />
+				</State.ChildStates>
+				<RegexPatternGroup TokenKey="Whitespace" Pattern="{Whitespace}+" />
+				<RegexPatternGroup TokenKey="LineTerminator" Pattern="{LineTerminator}" />
+				<ExplicitPatternGroup Key="OpenParenthesisPatternGroup" TokenKey="OpenParenthesis" Pattern="(" />
+				<ExplicitPatternGroup Key="CloseParenthesisPatternGroup" TokenKey="CloseParenthesis" Pattern=")" />
+				<ExplicitPatternGroup Key="OpenCurlyBracePatternGroup" TokenKey="OpenCurlyBrace" Pattern="{" />
+				<ExplicitPatternGroup Key="CloseCurlyBracePatternGroup" TokenKey="CloseCurlyBrace" Pattern="}" />
+				<ExplicitPatternGroup Key="OpenSquareBracePatternGroup" TokenKey="OpenSquareBrace" Pattern="[" />
+				<ExplicitPatternGroup Key="CloseSquareBracePatternGroup" TokenKey="CloseSquareBrace" Pattern="]" />
+				<ExplicitPatternGroup TokenKey="Punctuation">
+					<ExplicitPatterns><![CDATA[
+						. , : ;
+					]]></ExplicitPatterns>
+				</ExplicitPatternGroup>
+				<ExplicitPatternGroup TokenKey="Null" ClassificationTypeKey="Keyword" Pattern="null" LookAheadPattern="{NonWord}|\z" />
+				<ExplicitPatternGroup TokenKey="NativeType" ClassificationTypeKey="Keyword" LookAheadPattern="{NonWord}|\z">
+					<ExplicitPatterns><![CDATA[
+						char short int long __int64 float double void
+					]]></ExplicitPatterns>
+				</ExplicitPatternGroup>
+				<ExplicitPatternGroup TokenKey="Boolean" ClassificationTypeKey="Keyword" LookAheadPattern="{NonWord}|\z">
+					<ExplicitPatterns><![CDATA[
+						false true
+					]]></ExplicitPatterns>
+				</ExplicitPatternGroup>
+				<ExplicitPatternGroup TokenKey="ReservedWord" ClassificationTypeKey="Keyword" LookAheadPattern="{NonWord}|\z">
+					<ExplicitPatterns><![CDATA[
+						_cs _ds _es asm auto break case cdecl char const continue default do double else enum extern far float
+						for fortran goto huge if int interrupt long near pascal register return short signed sizeof ss static
+						struct switch typedef union unsigned void volatile while
+					]]></ExplicitPatterns>
+				</ExplicitPatternGroup>
+				<RegexPatternGroup TokenKey="Identifier" ClassificationTypeKey="Identifier" Pattern="(_ | {Alpha})({Word})*" />
+				<ExplicitPatternGroup TokenKey="Operator" ClassificationTypeKey="Operator">
+					<ExplicitPatterns><![CDATA[
+						!= == = ! ++ -- += -= *= /= %= -> + - * / % && || &= |= ^= & | ~ ^ <<= >>= << >> <= < >= > ?
+					]]></ExplicitPatterns>
+				</ExplicitPatternGroup>
+				<RegexPatternGroup TokenKey="RealNumber" ClassificationTypeKey="Number" LookAheadPattern="{NonWord}|\z">
+					<RegexPattern Value="{Digit}* \. {Digit}+ ([Ee] [\+\-]? {Digit}+)? [FfDdMm]?" />
+					<RegexPattern Value="{Digit}+ [Ee] [\+\-]? {Digit}+ [FfDdMm]" />
+				</RegexPatternGroup>
+				<RegexPatternGroup TokenKey="IntegerNumber" ClassificationTypeKey="Number" Pattern="{Digit}+ (([Uu]? [Ll]?) | ([Ll]? [Uu]?))" LookAheadPattern="{NonWord}|\z" />
+				<RegexPatternGroup TokenKey="HexIntegerNumber" ClassificationTypeKey="Number" Pattern="0 [xX] {HexDigit}+ (([Uu]? [Ll]?) | ([Ll]? [Uu]?))" LookAheadPattern="{NonWord}|\z" />
+			</State>
+			<!-- Error state -->
+			<State Key="Error" DefaultTokenKey="ErrorText" DefaultClassificationTypeKey="Error" />
+			<!-- Keyword state -->
+			<State Key="Keyword" DefaultTokenKey="KeywordText" DefaultClassificationTypeKey="Keyword">
+				<ExplicitPatternGroup />
+			</State>
+			<!-- Number state -->
+			<State Key="Number" DefaultTokenKey="NumberText" DefaultClassificationTypeKey="Number" />
+			<!-- Operator state -->
+			<State Key="Operator" DefaultTokenKey="OperatorText" DefaultClassificationTypeKey="Operator" />
+			<!-- Identifier state -->
+			<State Key="Identifier" DefaultTokenKey="IdentifierText" DefaultClassificationTypeKey="Identifier" />
+			<!-- Scalar state -->
+			<State Key="Scalar" DefaultTokenKey="ScalarText" DefaultClassificationTypeKey="Scalar" />
+			<!-- Param state -->
+			<State Key="Param" DefaultTokenKey="ParamText" DefaultClassificationTypeKey="Param" />
+			<!-- Backticks state -->
+			<State Key="Backticks" DefaultTokenKey="BacktickText" DefaultClassificationTypeKey="Backtick" />
+			<!-- Character state -->
+			<State Key="Character" DefaultTokenKey="CharacterText" DefaultClassificationTypeKey="Character">
+				<State.Scopes>
+					<Scope>
+						<Scope.StartPatternGroup>
+							<ExplicitPatternGroup TokenKey="CharacterStartDelimiter" Pattern="'" />
+						</Scope.StartPatternGroup>
+						<Scope.EndPatternGroup>
+							<RegexPatternGroup TokenKey="CharacterEndDelimiter" Pattern="['\n]" />
+						</Scope.EndPatternGroup>
+					</Scope>
+				</State.Scopes>
+				<RegexPatternGroup TokenKey="CharacterEscapedCharacter" Pattern="\\x {HexDigit}{1,4}" />
+				<RegexPatternGroup TokenKey="CharacterEscapedCharacter" Pattern="\\u {HexDigit}{4,4}" />
+				<RegexPatternGroup TokenKey="CharacterEscapedCharacter" Pattern="\\U {HexDigit}{8,8}" />
+				<RegexPatternGroup TokenKey="CharacterEscapedCharacter" Pattern="\\." />
+				<RegexPatternGroup TokenKey="CharacterText" Pattern="[^'\\\n]+" />
+			</State>
+			<!-- String state -->
+			<State Key="String" DefaultTokenKey="StringText" DefaultClassificationTypeKey="String">
+				<State.Scopes>
+					<Scope>
+						<Scope.StartPatternGroup>
+							<ExplicitPatternGroup TokenKey="StringStartDelimiter" Pattern="&quot;" />
+						</Scope.StartPatternGroup>
+						<Scope.EndPatternGroup>
+							<RegexPatternGroup TokenKey="StringEndDelimiter" Pattern="[\&quot;\n]" />
+						</Scope.EndPatternGroup>
+					</Scope>
+				</State.Scopes>
+				<RegexPatternGroup TokenKey="StringEscapedCharacter" Pattern="\\x {HexDigit}{1,4}" />
+				<RegexPatternGroup TokenKey="StringEscapedCharacter" Pattern="\\u {HexDigit}{4,4}" />
+				<RegexPatternGroup TokenKey="StringEscapedCharacter" Pattern="\\U {HexDigit}{8,8}" />
+				<RegexPatternGroup TokenKey="StringEscapedCharacter" Pattern="\\." />
+				<RegexPatternGroup TokenKey="StringText" Pattern="[^\&quot;\\\n]+" />
+			</State>
+			<!-- Comment state -->
+			<State Key="Comment" DefaultTokenKey="CommentText" DefaultClassificationTypeKey="Comment">
+				<State.Scopes>
+					<Scope>
+						<Scope.StartPatternGroup>
+							<ExplicitPatternGroup TokenKey="CommentStartDelimiter" Pattern="//" />
+						</Scope.StartPatternGroup>
+						<Scope.EndPatternGroup>
+							<RegexPatternGroup TokenKey="CommentEndDelimiter" Pattern="{LineTerminator}" />
+						</Scope.EndPatternGroup>
+					</Scope>
+				</State.Scopes>
+				<RegexPatternGroup TokenKey="CommentLineTerminator" Pattern="{LineTerminator} {Whitespace}* //" LookAheadPattern="[^/]" />
+				<RegexPatternGroup TokenKey="CommentText" Pattern="[^\n]+" />
+			</State>
+			<!-- MultiLineComment state -->
+			<State Key="MultiLineComment" DefaultTokenKey="MultiLineCommentText" DefaultClassificationTypeKey="Comment">
+				<State.Scopes>
+					<Scope>
+						<Scope.StartPatternGroup>
+							<ExplicitPatternGroup TokenKey="MultiLineCommentStartDelimiter" Pattern="/*" />
+						</Scope.StartPatternGroup>
+						<Scope.EndPatternGroup>
+							<ExplicitPatternGroup TokenKey="MultiLineCommentEndDelimiter" Pattern="*/" />
+						</Scope.EndPatternGroup>
+					</Scope>
+				</State.Scopes>
+				<RegexPatternGroup TokenKey="MultiLineCommentLineTerminator" Pattern="{LineTerminator}" />
+				<RegexPatternGroup TokenKey="MultiLineCommentText" Pattern="[^*\n]+" />
+			</State>
+		</DynamicLexer>
+	</LanguageProject.Lexer>
+	<!-- Example text -->
+	<LanguageProject.ExampleText><![CDATA[#!/bin/ksh
+sdcard=`ls /mnt|grep sdcard.*t`
+SDPath=/mnt/$sdcard 
+
+# mounts
+mount -uw $SDPath
+mount -uw /mnt/efs-system
+mount -uw /mnt/efs-persist
+
+dt=$(getTime)
+echo "Start at " $dt "\r\n"> $SDPath/$dt.txt
+
+echo -ne $(getTime) " - Show geStart\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/showScreen $SDPath/screens/geStart.png
+
+echo -ne $(getTime) " - Copy DataPST to SD\r\n" >> $SDPath/$dt.txt
+cp -v -r /mnt/efs-persist/DataPST.db $SDPath/DataPST.db.bkp
+cp -v -r /mnt/efs-persist/DataPST.db $SDPath/DataPST.db
+
+echo -ne $(getTime) " - Insert data into DataPST on SD\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1418463176,288230376151646213,1)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,4,40960,32783)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,4,4117,1)"
+
+echo -ne $(getTime) " - Insert online POI into DataPST on SD\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,676990753,72057594037862404,1)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1550256158,72063091596001282,3)"
+
+echo -ne $(getTime) " - Insert GEMMI into DataPST on SD\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1418463180,144115188075790336,0)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1418463180,288230376151646212,1)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1418463180,288230376151646213,2)"
+$SDPath/utils/sqlite3 $SDPath/DataPST.db "INSERT OR REPLACE INTO tb_intvalues (pst_is,pst_namespace,pst_key,pst_value) VALUES (null,1418463180,288230376151646227,2)"
+
+echo -ne $(getTime) " - Copy DataPST on SD to MMI\r\n" >> $SDPath/$dt.txt
+cp -v -r $SDPath/DataPST.db /mnt/efs-persist/DataPST.db
+cp -v -r $SDPath/DataPST.db /HBpersistence/DataPST.db
+cp -v -r $SDPath/DataPST.db /mnt/hmisql/DataPST.db
+
+echo -ne $(getTime) " - Show geDone\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/showScreen $SDPath/screens/geDone.png
+
+echo -ne $(getTime) " - Show diagStart\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/showScreen $SDPath/screens/diagStart.png
+
+if test -a /scripts/Connectivity/getStatus.sh.bak ; then
+	rm /scripts/Connectivity/getStatus.sh
+	cp $SDPath/getStatus.sh /scripts/Connectivity/.
+	echo -ne $(getTime) " - getStatus.sh copied on MMI\r\n" >> $SDPath/$dt.txt
+else
+	mv /scripts/Connectivity/getStatus.sh /scripts/Connectivity/getStatus.sh.bak
+	echo -ne $(getTime) " - getStatus.sh bakuped on MMI (getStatus.sh.bak)\r\n" >> $SDPath/$dt.txt
+	cp $SDPath/getStatus.sh /scripts/Connectivity/.
+	echo -ne $(getTime) " - getStatus.sh copied on MMI\r\n" >> $SDPath/$dt.txt
+fi
+
+if ! test -a /usr/bin/awk ; then
+	cp $SDPath/utils/awk /usr/bin/.
+	cp $SDPath/utils/libc.so.3 /usr/bin/.
+	echo -ne $(getTime) " - awk copied on MMI\r\n" >> $SDPath/$dt.txt
+fi
+
+echo -ne $(getTime) " - Show diagDone\r\n" >> $SDPath/$dt.txt
+$SDPath/utils/showScreen $SDPath/screens/diagDone.png
+
+echo -ne $(getTime) " - Installation successful\r\n" >> $SDPath/$dt.txt]]></LanguageProject.ExampleText>
+</LanguageProject>

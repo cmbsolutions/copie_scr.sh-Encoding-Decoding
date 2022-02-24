@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public Class decoder
-    Private Const start_seed As UInteger = &H1BE3AC
+    Private ReadOnly start_seeds As New List(Of UInteger)({&H1BE3AC, &HEBAEBA})
     Private seed As UInteger
 
     Private Function prng_rand() As UInteger
@@ -15,6 +15,18 @@ Public Class decoder
         seed = r3
 
         Return r0
+    End Function
+
+    Public Function AutoDecodeFile(file As String) As String
+        Dim data() As Byte = IO.File.ReadAllBytes(file)
+        Dim cs As UInteger = 0
+
+        If data(0) = 241 Then cs = start_seeds(1)
+        If data(0) = 192 Then cs = start_seeds(0)
+
+        Dim outData() As Byte = Decode(data, cs)
+
+        Return Text.Encoding.ASCII.GetString(outData)
     End Function
 
     Public Function DecodeFile(file As String, custom_seed As UInteger) As String
@@ -35,7 +47,7 @@ Public Class decoder
     Private Function Decode(data() As Byte, custom_seed As UInteger) As Byte()
         Try
             If custom_seed = 0 Then
-                seed = start_seed
+                seed = start_seeds.First
             Else
                 seed = custom_seed
             End If

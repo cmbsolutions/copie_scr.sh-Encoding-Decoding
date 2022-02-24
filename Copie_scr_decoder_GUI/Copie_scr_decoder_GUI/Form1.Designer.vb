@@ -27,13 +27,13 @@ Partial Class Form1
         Me.Button1 = New System.Windows.Forms.Button()
         Me.ofd = New System.Windows.Forms.OpenFileDialog()
         Me.pFile = New System.Windows.Forms.Panel()
-        Me.rtb = New System.Windows.Forms.RichTextBox()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ImportReadableFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.cb1 = New System.Windows.Forms.ComboBox()
         Me.bEnc = New System.Windows.Forms.Button()
         Me.sfd = New System.Windows.Forms.SaveFileDialog()
+        Me.scEditor = New ScintillaNET.Scintilla()
         Me.pFile.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -41,20 +41,27 @@ Partial Class Form1
         'Label1
         '
         Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.Label1.ForeColor = System.Drawing.Color.WhiteSmoke
         Me.Label1.Location = New System.Drawing.Point(19, 48)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(78, 15)
+        Me.Label1.Size = New System.Drawing.Size(85, 15)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Drop file here"
         '
         'Button1
         '
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(76, Byte), Integer), CType(CType(76, Byte), Integer), CType(CType(76, Byte), Integer))
+        Me.Button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(43, Byte), Integer), CType(CType(46, Byte), Integer))
+        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.Button1.ForeColor = System.Drawing.Color.WhiteSmoke
         Me.Button1.Location = New System.Drawing.Point(2, 1)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(118, 23)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "Pick a file"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.UseVisualStyleBackColor = False
         '
         'ofd
         '
@@ -75,24 +82,6 @@ Partial Class Form1
         Me.pFile.Size = New System.Drawing.Size(118, 116)
         Me.pFile.TabIndex = 0
         '
-        'rtb
-        '
-        Me.rtb.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rtb.BackColor = System.Drawing.Color.FromArgb(CType(CType(36, Byte), Integer), CType(CType(36, Byte), Integer), CType(CType(36, Byte), Integer))
-        Me.rtb.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtb.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.rtb.DetectUrls = False
-        Me.rtb.Font = New System.Drawing.Font("Consolas", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.rtb.ForeColor = System.Drawing.Color.WhiteSmoke
-        Me.rtb.Location = New System.Drawing.Point(126, 1)
-        Me.rtb.Name = "rtb"
-        Me.rtb.Size = New System.Drawing.Size(436, 214)
-        Me.rtb.TabIndex = 0
-        Me.rtb.Text = ""
-        Me.rtb.WordWrap = False
-        '
         'ContextMenuStrip1
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ImportReadableFileToolStripMenuItem})
@@ -108,16 +97,21 @@ Partial Class Form1
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(22, 174)
+        Me.Label2.BackColor = System.Drawing.Color.Transparent
+        Me.Label2.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.Label2.Location = New System.Drawing.Point(2, 174)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(79, 15)
+        Me.Label2.Size = New System.Drawing.Size(118, 15)
         Me.Label2.TabIndex = 1
-        Me.Label2.Text = "Custom seed:"
+        Me.Label2.Text = "En/De-coding secret:"
         '
         'cb1
         '
+        Me.cb1.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.cb1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cb1.ForeColor = System.Drawing.Color.WhiteSmoke
         Me.cb1.FormattingEnabled = True
-        Me.cb1.Items.AddRange(New Object() {"001BE3AC", "00EBAEBA"})
+        Me.cb1.Items.AddRange(New Object() {"--Auto--", "001BE3AC", "00EBAEBA"})
         Me.cb1.Location = New System.Drawing.Point(2, 192)
         Me.cb1.Name = "cb1"
         Me.cb1.Size = New System.Drawing.Size(118, 23)
@@ -125,12 +119,17 @@ Partial Class Form1
         '
         'bEnc
         '
+        Me.bEnc.BackColor = System.Drawing.Color.FromArgb(CType(CType(76, Byte), Integer), CType(CType(76, Byte), Integer), CType(CType(76, Byte), Integer))
+        Me.bEnc.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(43, Byte), Integer), CType(CType(43, Byte), Integer), CType(CType(46, Byte), Integer))
+        Me.bEnc.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.bEnc.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.bEnc.ForeColor = System.Drawing.Color.WhiteSmoke
         Me.bEnc.Location = New System.Drawing.Point(2, 148)
         Me.bEnc.Name = "bEnc"
         Me.bEnc.Size = New System.Drawing.Size(118, 23)
         Me.bEnc.TabIndex = 4
         Me.bEnc.Text = "Encode"
-        Me.bEnc.UseVisualStyleBackColor = True
+        Me.bEnc.UseVisualStyleBackColor = False
         '
         'sfd
         '
@@ -139,23 +138,42 @@ Partial Class Form1
         Me.sfd.Filter = "Sh Files|*.sh|All Files|*.*"
         Me.sfd.Title = "Save encoded file"
         '
+        'scEditor
+        '
+        Me.scEditor.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.scEditor.AutoCMaxHeight = 9
+        Me.scEditor.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.scEditor.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.scEditor.EolMode = ScintillaNET.Eol.Lf
+        Me.scEditor.IndentationGuides = ScintillaNET.IndentView.LookBoth
+        Me.scEditor.Lexer = ScintillaNET.Lexer.Cpp
+        Me.scEditor.Location = New System.Drawing.Point(123, 1)
+        Me.scEditor.Name = "scEditor"
+        Me.scEditor.Size = New System.Drawing.Size(502, 394)
+        Me.scEditor.TabIndex = 5
+        Me.scEditor.VirtualSpaceOptions = CType((ScintillaNET.VirtualSpace.RectangularSelection Or ScintillaNET.VirtualSpace.NoWrapLineStart), ScintillaNET.VirtualSpace)
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(564, 217)
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(36, Byte), Integer), CType(CType(36, Byte), Integer), CType(CType(36, Byte), Integer))
+        Me.ClientSize = New System.Drawing.Size(626, 396)
+        Me.Controls.Add(Me.scEditor)
         Me.Controls.Add(Me.bEnc)
         Me.Controls.Add(Me.cb1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.pFile)
         Me.Controls.Add(Me.Button1)
-        Me.Controls.Add(Me.rtb)
         Me.DoubleBuffered = True
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow
+        Me.ForeColor = System.Drawing.Color.WhiteSmoke
         Me.MinimumSize = New System.Drawing.Size(300, 256)
         Me.Name = "Form1"
+        Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Decoder"
+        Me.Text = "VW RNS850 & Audi MMI Copie_scr.sh (en/de)coder"
         Me.pFile.ResumeLayout(False)
         Me.pFile.PerformLayout()
         Me.ContextMenuStrip1.ResumeLayout(False)
@@ -167,11 +185,11 @@ Partial Class Form1
     Friend WithEvents Button1 As Button
     Friend WithEvents ofd As OpenFileDialog
     Friend WithEvents pFile As Panel
-    Friend WithEvents rtb As RichTextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents cb1 As ComboBox
     Friend WithEvents bEnc As Button
     Friend WithEvents sfd As SaveFileDialog
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents ImportReadableFileToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents scEditor As ScintillaNET.Scintilla
 End Class
