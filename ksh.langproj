@@ -12,18 +12,18 @@ Actipro Syntax Language Project (.langproj)
 <LanguageProject LanguageKey="ksh" LanguageDescription="KornShell" OutputLanguageDefinition="False" OutputLanguageKey="VB" OutputNamespaceName="CMBSolutions.Text.ksh" OutputPath="E:\My Documents\localRepos\copie_scr.sh-Encoding-Decoding\Copie_scr_decoder_GUI\Copie_scr_decoder_GUI\Lexer" OutputPlatformKind="WinForms" Creator="CMBSolutions" Copyright="Copyright (c) 2022 CMBSolutions" xmlns="http://schemas.actiprosoftware.com/langproj/1.0">
 	<!-- Classification types -->
 	<LanguageProject.ClassificationTypes>
-		<ClassificationType Key="Backtick" DefaultStyle="#FFCEDF99,True,False" />
-		<ClassificationType Key="Character" DefaultStyle="#FFDCA3A3,False,False" />
-		<ClassificationType Key="Comment" DefaultStyle="#FF7F9F7F,True,True" />
+		<ClassificationType Key="Backtick" DefaultStyle="#FFCEDF99,True,False,#FF3F3F3F,True" />
+		<ClassificationType Key="Character" DefaultStyle="#FFDCA3A3,False,False,#FF3F3F3F,True" />
+		<ClassificationType Key="Comment" DefaultStyle="#FF7F9F7F,True,True,#FF3F3F3F,True" />
 		<ClassificationType Key="Default" DefaultStyle="#FFDCDCCC,False,False,#FF3F3F3F,True" />
-		<ClassificationType Key="Error" DefaultStyle="#FFEDD6ED,True,False" />
-		<ClassificationType Key="Identifier" DefaultStyle="#FFDCDCCC,False,False" />
-		<ClassificationType Key="Keyword" DefaultStyle="#FFDFC47D,True,False" />
-		<ClassificationType Key="Number" DefaultStyle="#FF8CD0D3,False,False" />
-		<ClassificationType Key="Operator" DefaultStyle="#FF9F9D6D,True,False" />
-		<ClassificationType Key="Param" DefaultStyle="#FFFFEBDD,False,False" />
-		<ClassificationType Key="Scalar" DefaultStyle="#FFE3CEAB,True,False" />
-		<ClassificationType Key="String" DefaultStyle="#FFCC9393,False,False" />
+		<ClassificationType Key="Error" DefaultStyle="#FFEDD6ED,True,False,#FF3F3F3F,True" />
+		<ClassificationType Key="Identifier" DefaultStyle="#FFDCDCCC,False,False,#FF3F3F3F,True" />
+		<ClassificationType Key="Keyword" DefaultStyle="#FFDFC47D,True,False,#FF3F3F3F,True" />
+		<ClassificationType Key="Number" DefaultStyle="#FF8CD0D3,False,False,#FF3F3F3F,True" />
+		<ClassificationType Key="Operator" DefaultStyle="#FF9F9D6D,True,False,#FF3F3F3F,True" />
+		<ClassificationType Key="Param" DefaultStyle="#FFFFEBDD,False,False,#FF3F3F3F,True" />
+		<ClassificationType Key="Scalar" DefaultStyle="#FFE3CEAB,True,False,#FF3F3F3F,True" />
+		<ClassificationType Key="String" DefaultStyle="#FFCC9393,False,False,#FF3F3F3F,True" />
 	</LanguageProject.ClassificationTypes>
 	<!-- Lexer -->
 	<LanguageProject.Lexer>
@@ -36,35 +36,17 @@ Actipro Syntax Language Project (.langproj)
 					<StateRef Key="MultiLineComment" />
 					<StateRef Key="Comment" />
 				</State.ChildStates>
-				<RegexPatternGroup TokenKey="Whitespace" Pattern="{Whitespace}+" />
-				<RegexPatternGroup TokenKey="LineTerminator" Pattern="{LineTerminator}" />
-				<ExplicitPatternGroup Key="OpenParenthesisPatternGroup" TokenKey="OpenParenthesis" Pattern="(" />
-				<ExplicitPatternGroup Key="CloseParenthesisPatternGroup" TokenKey="CloseParenthesis" Pattern=")" />
-				<ExplicitPatternGroup Key="OpenCurlyBracePatternGroup" TokenKey="OpenCurlyBrace" Pattern="{" />
-				<ExplicitPatternGroup Key="CloseCurlyBracePatternGroup" TokenKey="CloseCurlyBrace" Pattern="}" />
-				<ExplicitPatternGroup Key="OpenSquareBracePatternGroup" TokenKey="OpenSquareBrace" Pattern="[" />
-				<ExplicitPatternGroup Key="CloseSquareBracePatternGroup" TokenKey="CloseSquareBrace" Pattern="]" />
+				<RegexPatternGroup TokenKey="Whitespace" ClassificationTypeKey="Default" Pattern="{Whitespace}+" />
+				<RegexPatternGroup TokenKey="LineTerminator" ClassificationTypeKey="Default" Pattern="{LineTerminator}" />
+				<ExplicitPatternGroup Key="OpenParenthesisPatternGroup" TokenKey="OpenParenthesis" ClassificationTypeKey="Identifier" Pattern="(" />
+				<ExplicitPatternGroup Key="CloseParenthesisPatternGroup" TokenKey="CloseParenthesis" ClassificationTypeKey="Identifier" Pattern=")" />
+				<ExplicitPatternGroup Key="OpenCurlyBracePatternGroup" TokenKey="OpenCurlyBrace" ClassificationTypeKey="Identifier" Pattern="{" />
+				<ExplicitPatternGroup Key="CloseCurlyBracePatternGroup" TokenKey="CloseCurlyBrace" ClassificationTypeKey="Identifier" Pattern="}" />
+				<ExplicitPatternGroup Key="OpenSquareBracePatternGroup" TokenKey="OpenSquareBrace" ClassificationTypeKey="Identifier" Pattern="[" />
+				<ExplicitPatternGroup Key="CloseSquareBracePatternGroup" TokenKey="CloseSquareBrace" ClassificationTypeKey="Identifier" Pattern="]" />
 				<ExplicitPatternGroup TokenKey="Punctuation">
 					<ExplicitPatterns><![CDATA[
 						. , : ;
-					]]></ExplicitPatterns>
-				</ExplicitPatternGroup>
-				<ExplicitPatternGroup TokenKey="Null" ClassificationTypeKey="Keyword" Pattern="null" LookAheadPattern="{NonWord}|\z" />
-				<ExplicitPatternGroup TokenKey="NativeType" ClassificationTypeKey="Keyword" LookAheadPattern="{NonWord}|\z">
-					<ExplicitPatterns><![CDATA[
-						char short int long __int64 float double void
-					]]></ExplicitPatterns>
-				</ExplicitPatternGroup>
-				<ExplicitPatternGroup TokenKey="Boolean" ClassificationTypeKey="Keyword" LookAheadPattern="{NonWord}|\z">
-					<ExplicitPatterns><![CDATA[
-						false true
-					]]></ExplicitPatterns>
-				</ExplicitPatternGroup>
-				<ExplicitPatternGroup TokenKey="ReservedWord" ClassificationTypeKey="Keyword" LookAheadPattern="{NonWord}|\z">
-					<ExplicitPatterns><![CDATA[
-						_cs _ds _es asm auto break case cdecl char const continue default do double else enum extern far float
-						for fortran goto huge if int interrupt long near pascal register return short signed sizeof ss static
-						struct switch typedef union unsigned void volatile while
 					]]></ExplicitPatterns>
 				</ExplicitPatternGroup>
 				<RegexPatternGroup TokenKey="Identifier" ClassificationTypeKey="Identifier" Pattern="(_ | {Alpha})({Word})*" />
@@ -84,12 +66,34 @@ Actipro Syntax Language Project (.langproj)
 			<State Key="Error" DefaultTokenKey="ErrorText" DefaultClassificationTypeKey="Error" />
 			<!-- Keyword state -->
 			<State Key="Keyword" DefaultTokenKey="KeywordText" DefaultClassificationTypeKey="Keyword">
-				<ExplicitPatternGroup />
+				<ExplicitPatternGroup Key="Keywords" TokenKey="InstuctionWords" ClassificationTypeKey="Keyword" LookAheadPattern="{NonWord}|\z" CaseSensitivity="Insensitive">
+					<ExplicitPatterns><![CDATA[
+						7z adduser alias apt-get ar as asa autoconf automake awk banner base64 basename bash bc bdiff blkid
+						break bsdcpio bsdtar bunzip2 bzcmp bzdiff bzegrep bzfgrep bzgrep bzip2 bzip2recover bzless bzmore
+						c++ cal calendar case cat cc cd cfdisk chattr chgrp chmod chown chroot chvt cksum clang clang++ clear
+						cmp col column comm compgen compress continue convert cp cpio crontab crypt csplit ctags curl cut
+						date dc dd deallocvt declare deluser depmod deroff df dialog diff diff3 dig dircmp dirname disown
+						dmesg do done dpkg dpkg-deb du echo ed egrep elif else env esac eval ex exec exit expand export expr
+						fakeroot false fc fdisk ffmpeg fgrep fi file find flex flock fmt fold for fsck function functions
+						fuser fusermount g++ gas gawk gcc gdb genisoimage getconf getopt getopts git gpg gpgsplit gpgv grep
+						gres groff groups gunzip gzexe hash hd head help hexdump hg history httpd iconv id if ifconfig ifdown
+						ifquery ifup in insmod integer inxi ip ip6tables ip6tables-save ip6tables-restore iptables iptables-save
+						iptables-restore jobs join kill killall killall5 lc ld ldd let lex line ln local logname look ls lsattr
+						lsb_release lsblk lscpu lshw lslocks lsmod lsusb lzcmp lzegrep lzfgrep lzgrep lzless lzma lzmainfo
+						lzmore m4 mail mailx make man mkdir mkfifo mkswap mktemp modinfo modprobe mogrify more mount msgfmt
+						mt mv nameif nasm nc ndisasm netcat newgrp nl nm nohup ntps objdump od openssl p7zip pacman passwd
+						paste patch pathchk pax pcat pcregrep pcretest perl pg ping ping6 pivot_root poweroff pr print printf
+						ps pwd python python2 python3 ranlib read readlink readonly reboot reset return rev rm rmdir rmmod
+						rpm rsync sed select service set sh sha1sum sha224sum sha256sum sha3sum sha512sum shift shred shuf
+						shutdown size sleep sort spell split start stop strings strip stty su sudo sum suspend switch_root
+						sync systemctl tac tail tar tee test then time times touch tr trap troff true tsort tty type typeset
+						ulimit umask umount unalias uname uncompress unexpand uniq unlink unlzma unset until unzip unzipsfx
+						useradd userdel uudecode uuencode vi vim wait wc wget whence which while who wpaste wstart xargs
+						xdotool xxd xz xzcat xzcmp xzdiff xzfgrep xzgrep xzless xzmore yes yum zcat zcmp zdiff zegrep zfgrep
+						zforce zgrep zless zmore znew zsh
+					]]></ExplicitPatterns>
+				</ExplicitPatternGroup>
 			</State>
-			<!-- Number state -->
-			<State Key="Number" DefaultTokenKey="NumberText" DefaultClassificationTypeKey="Number" />
-			<!-- Operator state -->
-			<State Key="Operator" DefaultTokenKey="OperatorText" DefaultClassificationTypeKey="Operator" />
 			<!-- Identifier state -->
 			<State Key="Identifier" DefaultTokenKey="IdentifierText" DefaultClassificationTypeKey="Identifier" />
 			<!-- Scalar state -->
@@ -97,7 +101,19 @@ Actipro Syntax Language Project (.langproj)
 			<!-- Param state -->
 			<State Key="Param" DefaultTokenKey="ParamText" DefaultClassificationTypeKey="Param" />
 			<!-- Backticks state -->
-			<State Key="Backticks" DefaultTokenKey="BacktickText" DefaultClassificationTypeKey="Backtick" />
+			<State Key="Backticks" DefaultTokenKey="BacktickText" DefaultClassificationTypeKey="Backtick">
+				<State.Scopes>
+					<Scope>
+						<Scope.StartPatternGroup>
+							<ExplicitPatternGroup TokenKey="startbacktick" ClassificationTypeKey="Backtick" Pattern="`" />
+						</Scope.StartPatternGroup>
+						<Scope.EndPatternGroup>
+							<ExplicitPatternGroup TokenKey="endbacktick" ClassificationTypeKey="Backtick" Pattern="`" />
+						</Scope.EndPatternGroup>
+					</Scope>
+				</State.Scopes>
+				<ExplicitPatternGroup Key="backticks" TokenKey="backticks" ClassificationTypeKey="Backtick" Pattern="`" />
+			</State>
 			<!-- Character state -->
 			<State Key="Character" DefaultTokenKey="CharacterText" DefaultClassificationTypeKey="Character">
 				<State.Scopes>

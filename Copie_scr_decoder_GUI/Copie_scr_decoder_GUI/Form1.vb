@@ -9,7 +9,16 @@
 
     Private Sub pFile_DragDrop(sender As Object, e As DragEventArgs) Handles pFile.DragDrop
         Dim files() As String = CType(e.Data.GetData("FileDrop"), String())
-        decodeFile(files.First)
+
+        Dim data() As Byte = IO.File.ReadAllBytes(files.First)
+
+        If data(0) = 35 Then
+            scEditor.ClearAll()
+            scEditor.Text = System.Text.Encoding.ASCII.GetString(data)
+            scEditor.Colorize(0, scEditor.Text.Length)
+        Else
+            decodeFile(files.First)
+        End If
     End Sub
 
     Private Sub pFile_DragEnter(sender As Object, e As DragEventArgs) Handles pFile.DragEnter
