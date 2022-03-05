@@ -1,7 +1,8 @@
 {
   "profiles": {
     "copiescr.decoder": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "-e1 -o \"D:\\test\\copie_scr.txt\" \"D:\\test\\copie_scr.sh\""
     }
   }
 }

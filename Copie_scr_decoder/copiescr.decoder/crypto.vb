@@ -73,6 +73,7 @@ Public Class crypto
                 seed = custom_seed
             End If
 
+            Console.WriteLine($"Using seed {seed:X2}.")
             prng_rand()
 
             Dim outData As New List(Of Byte)

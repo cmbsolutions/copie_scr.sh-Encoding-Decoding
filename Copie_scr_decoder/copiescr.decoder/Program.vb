@@ -32,8 +32,8 @@ Module Program
                             Console.WriteLine($"Invalid seed {arg.Substring(2)}, a seed must be in HEX format. (eg. EBAEBA)")
                             Exit Sub
                         End Try
-                    Case "-e"
-                    Case "-d"
+                    Case "-e", "-d"
+                        auto = False
                         If arg.StartsWith("-e") Then forceEncode = True
                         If arg.StartsWith("-d") Then forceDecode = True
                         Select Case arg.Substring(2)
